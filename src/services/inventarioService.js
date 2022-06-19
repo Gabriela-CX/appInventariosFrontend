@@ -10,7 +10,16 @@ const getInventarios = () => {
 }
 
 const crearInventarios = (data) => {
-    return axiosInstance.post('/inventario', data, {
+    return axiosInstance.post(`/inventario`, data, {
+        headers: {
+            'Content-type':'application/json'
+        }
+    });
+
+}
+
+const getInventariosPorId = (inventarioId) => {
+    return axiosInstance.get(`/inventario/${inventarioId}`, {
         headers: {
             'Content-type':'application/json'
         }
@@ -28,5 +37,5 @@ const editInventarios = (inventarioId, data) => {
 
 
 export{
-    getInventarios, crearInventarios, editInventarios
+    getInventarios, crearInventarios, editInventarios, getInventariosPorId
 }
