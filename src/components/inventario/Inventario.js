@@ -1,23 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { getInventarios } from '../../services/inventarioService';
+import { InventarioPopup } from './InventarioPopup';
+import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 export const Inventario = () => {
 
   const [inventarios, setInventarios] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
 
   const listarInventarios = async () => {
     try {
+      Swal.fire({
+        allowOutsideClick: false,
+        text: 'Cargando...'
+      });
+      Swal.showLoading();
       const { data } = await getInventarios();
-      console.log(data);
       setInventarios(data);
+      Swal.close();
     } catch (error) {
       console.log(error);
+      Swal.close();
     }
   }
 
   useEffect(() => {
     listarInventarios();
   }, []);
+
+  const handleOpenModal = () => {
+    setOpenModal(!openModal);
+  }
 
   return (
     <div className="container-fluid">
@@ -34,7 +48,7 @@ export const Inventario = () => {
                     <hr />
                     <p className="card-text">{inventario.estadoEquipo.nombre}</p>
                     <p className="card-text">
-                      <a>Ver más...</a>
+                      <Link to={`inventarios/edit/${inventario._id}`}>Ver mas...</Link>
                     </p>
                   </div>
                 </div>
@@ -43,6 +57,14 @@ export const Inventario = () => {
           })
         }
       </div>
+      {
+        openModal ? <InventarioPopup
+          handleOpenModal={handleOpenModal}
+          listarInventarios={listarInventarios} /> :
+          (<button className="btn btn-primary fab" onClick={handleOpenModal}>
+            <i className="fa-solid fa-plus"></i></button>)
+      }
+
 
     </div>
 

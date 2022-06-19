@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import {crearEstados} from '../../services/estadoEquipoService';
+import {crearMarcas} from '../../services/marcaService';
 import Swal from 'sweetalert2';
 
-export const EstadoPopup = ({handleOpenModal, listarEstados}) => {
+export const MarcaPopup = ({handleOpenModal, listarMarcas}) => {
 
     const [valoresForm, setValoresForm] = useState([]);
     const { nombre = "", estado = "", fechaCreacion = "", fechaActualizacion = "" } = valoresForm;
@@ -15,7 +15,7 @@ export const EstadoPopup = ({handleOpenModal, listarEstados}) => {
 
     const handleOnSubmit = async (e) => {
         e.preventDefault();
-        const estados = {
+        const marca = {
             nombre, estado, fechaCreacion, fechaActualizacion
         }
         
@@ -24,11 +24,11 @@ export const EstadoPopup = ({handleOpenModal, listarEstados}) => {
                 text: 'Cargando...'
             });
             Swal.showLoading();
-            const { data } = await crearEstados(estados);
+            const { data } = await crearMarcas(marca);
             console.log(data);
             Swal.close();
             handleOpenModal();
-            listarEstados();
+            listarMarcas();
         
     }
 
@@ -37,7 +37,7 @@ export const EstadoPopup = ({handleOpenModal, listarEstados}) => {
             <div className='container-fluid'>
                 <div className='row'>
                     <div className='sidebar-header'>
-                        <h3>Nuevo Estado</h3>
+                        <h3>Nueva Marca</h3>
                         <i class="fa-solid fa-xmark" onClick={handleOpenModal}></i>
                     </div>
                 </div>

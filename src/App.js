@@ -6,6 +6,7 @@ import {Inventario} from './components/inventario/Inventario';
 import {Marca} from './components/marca/Marca';
 import {TipoEquipo} from './components/tipo-equipo/TipoEquipo';
 import {Usuario} from './components/usuario/Usuario';
+import {InventarioUpdate} from './components/inventario/InventarioUpdate';
 
 const App = () => {
     return <Router>
@@ -16,6 +17,7 @@ const App = () => {
           <Route exact path="/usuario" component={Usuario}/>
           <Route exact path="/marca" component={Marca}/>
           <Route exact path="/tipo-equipo" component={TipoEquipo}/>
+          <Route exact path="/inventarios/edit/:inventarioId/" component={InventarioUpdate} />
           <Redirect to='/'/>
         </Switch>
     </Router>

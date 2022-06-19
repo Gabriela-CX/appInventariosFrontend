@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import {crearEstados} from '../../services/estadoEquipoService';
+import React, { useState, } from 'react';
+import {crearUsuarios} from '../../services/usuarioService';
 import Swal from 'sweetalert2';
 
-export const EstadoPopup = ({handleOpenModal, listarEstados}) => {
+export const UsuarioPopup = ({handleOpenModal, listarUsuarios}) => {
 
     const [valoresForm, setValoresForm] = useState([]);
-    const { nombre = "", estado = "", fechaCreacion = "", fechaActualizacion = "" } = valoresForm;
+    const { nombre = "", email = "", estado = "", fechaCreacion = "", fechaActualizacion = "" } = valoresForm;
 
 
     const handleOnChange = ({ target }) => {
@@ -15,8 +15,8 @@ export const EstadoPopup = ({handleOpenModal, listarEstados}) => {
 
     const handleOnSubmit = async (e) => {
         e.preventDefault();
-        const estados = {
-            nombre, estado, fechaCreacion, fechaActualizacion
+        const usuario = {
+            nombre, email, estado, fechaCreacion, fechaActualizacion
         }
         
             Swal.fire({
@@ -24,11 +24,11 @@ export const EstadoPopup = ({handleOpenModal, listarEstados}) => {
                 text: 'Cargando...'
             });
             Swal.showLoading();
-            const { data } = await crearEstados(estados);
+            const { data } = await crearUsuarios(usuario);
             console.log(data);
             Swal.close();
             handleOpenModal();
-            listarEstados();
+            listarUsuarios();
         
     }
 
@@ -37,7 +37,7 @@ export const EstadoPopup = ({handleOpenModal, listarEstados}) => {
             <div className='container-fluid'>
                 <div className='row'>
                     <div className='sidebar-header'>
-                        <h3>Nuevo Estado</h3>
+                        <h3>Nuevo Usuario</h3>
                         <i class="fa-solid fa-xmark" onClick={handleOpenModal}></i>
                     </div>
                 </div>
@@ -53,6 +53,12 @@ export const EstadoPopup = ({handleOpenModal, listarEstados}) => {
                                 <div class="mb-3">
                                     <label className="form-label">Nombre</label>
                                     <input type="text" name="nombre" value={nombre} onChange={(e) => handleOnChange(e)} className="form-control" required />
+                                </div>
+                            </div>
+                            <div className='col'>
+                                <div class="mb-3">
+                                    <label className="form-label">Email</label>
+                                    <input type="email" name="email" value={email} onChange={(e) => handleOnChange(e)} className="form-control" required />
                                 </div>
                             </div>
                             <div className='col'>
@@ -88,3 +94,4 @@ export const EstadoPopup = ({handleOpenModal, listarEstados}) => {
         </div>
     )
 }
+
