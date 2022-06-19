@@ -16,8 +16,32 @@ const crearMarcas = (data) => {
     });
 
 }
-//todo: crear, actualizar, listar por id
+
+const getMarcasPorId = (marcaId) => {
+    return axiosInstance.get(`/marca/${marcaId}`, {
+        headers: {
+            'Content-type':'application/json'
+        }
+    });
+
+}
+
+const editMarcas = (marcaId, data) => {
+    return axiosInstance.put(`/marca/${marcaId}`, data, {
+        headers: {
+            'Content-type':'application/json'
+        }
+    });
+}
+
+const deleteMarca = (marcaId) => {
+    return axiosInstance.delete(`/marca/${marcaId}`, {
+        headers: {
+            'Content-type':'application/json'
+        }
+    });
+    }
 
 export {
-    getMarcas, crearMarcas
+    getMarcas, crearMarcas, getMarcasPorId, editMarcas, deleteMarca
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import { getEstadosEquipos } from '../../services/estadoEquipoService';
+import { getEstadosEquipos, deleteEstado } from '../../services/estadoEquipoService';
 import { Link } from 'react-router-dom';
 import { EstadoPopup } from './EstadoPopup';
 
@@ -32,6 +32,18 @@ export const Estado = () => {
   const handleOpenModal = () => {
     setOpenModal(!openModal);
   }
+  
+const handleDelete = async (estadoId) => {
+  try 
+  {
+      await deleteEstado(estadoId);
+      getEstadosEquipos();
+      console.log(estadoId);    
+  } catch (error) {
+      console.log(error); 
+  }
+
+}
 
   return (
     <div className="container-fluid">
@@ -54,10 +66,11 @@ export const Estado = () => {
                       <th scope="row">{estado.nombre}</th>
                       <td>{estado.estado}</td>
                       <td>
-                        <button className="btn btn-primary edit-button">
-                          <Link to={`estados/edit/${estado._id}`}></Link>
-                          <i class="fa-solid fa-pencil"></i></button>
-                        <button className="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                        <Link to={`estados/edit/${estado._id}`}>
+                          <button className="btn btn-primary edit-button">
+                            <i class="fa-solid fa-pencil"></i></button>
+                        </Link>
+                        <button className="btn btn-danger" onClick={() => {handleDelete(estado._id)}}><i class="fa-solid fa-trash"></i></button>
                       </td>
                     </tr>
                   </tbody>

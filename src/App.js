@@ -7,6 +7,10 @@ import {Marca} from './components/marca/Marca';
 import {TipoEquipo} from './components/tipo-equipo/TipoEquipo';
 import {Usuario} from './components/usuario/Usuario';
 import {InventarioUpdate} from './components/inventario/InventarioUpdate';
+import {UsuarioUpdate} from './components/usuario/UsuarioUpdate';
+import { MarcaUpdate } from './components/marca/MarcaUpdate';
+import { EstadoUpdate } from './components/estado/EstadoUpdate';
+import { TipoEquipoUpdate } from './components/tipo-equipo/TipoEquipoUpdate';
 
 const App = () => {
     return <Router>
@@ -18,6 +22,10 @@ const App = () => {
           <Route exact path="/marca" component={Marca}/>
           <Route exact path="/tipo-equipo" component={TipoEquipo}/>
           <Route exact path="/inventarios/edit/:inventarioId/" component={InventarioUpdate} />
+          <Route exact path="/usuarios/edit/:usuarioId/" component={UsuarioUpdate} />
+          <Route exact path="/marcas/edit/:marcaId/" component={MarcaUpdate} />
+          <Route exact path="/estados/edit/:estadoId/" component={EstadoUpdate} />
+          <Route exact path="/tipos/edit/:tipoId/" component={TipoEquipoUpdate} />
           <Redirect to='/'/>
         </Switch>
     </Router>

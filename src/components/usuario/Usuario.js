@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import { getUsuarios } from '../../services/usuarioService';
+import { getUsuarios, deleteUsuario } from '../../services/usuarioService';
 import { Link } from 'react-router-dom';
 import { UsuarioPopup } from './UsuarioPopup';
 
@@ -33,6 +33,17 @@ export const Usuario = () => {
     setOpenModal(!openModal);
   }
 
+  const handleDelete = async (usuarioId) => {
+    try 
+    {
+        await deleteUsuario(usuarioId);
+        getUsuarios();
+        console.log(usuarioId);    
+    } catch (error) {
+        console.log(error); 
+    }
+}
+
   return (
     <div className="container-fluid">
       <div class="mt-2 mb-2 ">
@@ -46,33 +57,34 @@ export const Usuario = () => {
                 <th scope="col">Acciones</th>
               </tr>
             </thead>
-            
-              {
-                usuarios.map((usuario) => {
-                  return (
-                    <tbody>
+
+            {
+              usuarios.map((usuario) => {
+                return (
+                  <tbody>
                     <tr>
                       <th scope="row">{usuario.nombre}</th>
                       <td>{usuario.email}</td>
                       <td>{usuario.estado}</td>
                       <td>
-                        <button className="btn btn-primary edit-button">
-                          <Link to={`usuarios/edit/${usuario._id}`}></Link>
-                          <i class="fa-solid fa-pencil"></i></button>
-                        <button className="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                        <Link to={`usuarios/edit/${usuario._id}`}>
+                          <button className="btn btn-primary edit-button">
+                            <i class="fa-solid fa-pencil"></i></button>
+                        </Link>
+                        <button className="btn btn-danger" onClick={() => {handleDelete(usuario._id)}}><i class="fa-solid fa-trash"></i></button>
                       </td>
                     </tr>
                   </tbody>
-          
-        )
-          })
-        }
-        </table>
+
+                )
+              })
+            }
+          </table>
         </div>
 
       </div>
       {
-          openModal ? <UsuarioPopup
+        openModal ? <UsuarioPopup
           handleOpenModal={handleOpenModal}
           listarUsuarios={listarUsuarios} /> :
           (<button className="btn btn-primary fab" onClick={handleOpenModal}>

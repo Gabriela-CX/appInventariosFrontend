@@ -1,51 +1,50 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
-import { getUsuariosPorId, editUsuarios } from '../../services/usuarioService';
+import { getMarcasPorId, editMarcas } from '../../services/marcaService';
 import Swal from 'sweetalert2';
 
-export const UsuarioUpdate = () => {
-    const { usuarioId = '' } = useParams();
+export const MarcaUpdate = () => {
+    const { marcaId = '' } = useParams();
 
-    const [usuarios, setUsuarios] = useState([]);
+    const [marcas, setMarcas] = useState([]);
 
     const [valoresForm, setValoresForm] = useState({});
-    const { nombre = "", estado = "", email = "" } = valoresForm;
+    const { nombre = "", estado = "" } = valoresForm;
 
 
     useEffect(() => {
         setValoresForm({
-            nombre: usuarios.nombre,
-            email: usuarios.email,
-            estado: usuarios.estado,
+            nombre: marcas.nombre,
+            estado: marcas.estado
 
         });
-    }, [usuarios]);
+    }, [marcas]);
 
-    const getUsuarios = async () => {
+    const getMarcas = async () => {
         try {
             Swal.fire({
-              allowOutsideClick: false,
-              text: 'Cargando...'
+                allowOutsideClick: false,
+                text: 'Cargando...'
             });
             Swal.showLoading();
-            const { data } = await getUsuariosPorId(usuarioId);
-            setUsuarios(data);
+            const { data } = await getMarcasPorId(marcaId);
+            setMarcas(data);
             Swal.close();
-          } catch (error) {
+        } catch (error) {
             console.log(error);
             Swal.close();
-          }
+        }
     }
 
     useEffect(() => {
-        getUsuarios();
-    }, [usuarioId]);
+        getMarcas();
+    }, [marcaId]);
 
 
     const handleOnSubmit = async (e) => {
         e.preventDefault();
-        const usuario = {
-            nombre, email, estado
+        const marcas = {
+            nombre, estado
 
         }
         try {
@@ -54,7 +53,7 @@ export const UsuarioUpdate = () => {
                 text: 'Cargando...'
             });
             Swal.showLoading();
-            const { data } = await editUsuarios(usuarioId, usuario);
+            const { data } = await editMarcas(marcaId, marcas);
             console.log(data);
             Swal.close();
         } catch (error) {
@@ -69,13 +68,13 @@ export const UsuarioUpdate = () => {
         setValoresForm({ ...valoresForm, [name]: value });
     }
 
-    
+
 
     return (
         <div className='container-fluid mt-3 mb-2'>
             <div className="card">
                 <div className="card-header">
-                    <h5 className="card-title">Editar Usuario</h5>
+                    <h5 className="card-title">Editar Marca</h5>
                 </div>
                 <div className="card-body">
                     <div className="row">
@@ -95,24 +94,14 @@ export const UsuarioUpdate = () => {
                                     </div>
                                     <div className="col">
                                         <div className='mb-3'>
-                                            <label className="forma-label">Email</label>
-                                            <input type="text" name='email'
+                                            <label className="forma-label">Estado</label>
+                                            <input type="text" name='estado'
                                                 required
-                                                value={email}
+                                                value={estado}
                                                 onChange={(e) => handleOnChange(e)}
                                                 className="form-control" />
                                         </div>
                                     </div>
-                                    <div className='mb-3'>
-                                        <label className="form-label">Estado</label>
-                                        <select required name='estado' value={estado}
-                                            className="form-select" onChange={(e) => handleOnChange(e)}>
-                                            <option defaultValue value="">--SELECCIONAR--</option>
-                                            <option value="Activo">Activo</option>
-                                            <option value="Inactivo">Inactivo</option>
-                                        </select>
-                                    </div>
-
                                     <div className='row'>
                                         <div className='col'>
                                             <button className='btn btn-primary'>Guardar</button>
@@ -125,5 +114,6 @@ export const UsuarioUpdate = () => {
                 </div>
             </div>
         </div>
+
     )
 }

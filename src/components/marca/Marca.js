@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import { getMarcas } from '../../services/marcaService';
+import { getMarcas, deleteMarca } from '../../services/marcaService';
 import { Link } from 'react-router-dom';
 import { MarcaPopup } from './MarcaPopup';
 
@@ -33,6 +33,18 @@ export const Marca = () => {
     setOpenModal(!openModal);
   }
 
+  const handleDelete = async (marcaId) => {
+    try 
+    {
+        await deleteMarca(marcaId);
+        getMarcas();
+        console.log(marcaId);    
+    } catch (error) {
+        console.log(error); 
+    }
+
+  }
+
   return (
     <div className="container-fluid">
       <div class="mt-2 mb-2 ">
@@ -45,38 +57,39 @@ export const Marca = () => {
                 <th scope="col">Acciones</th>
               </tr>
             </thead>
-            
-              {
-                marcas.map((marca) => {
-                  return (
-                    <tbody>
+
+            {
+              marcas.map((marca) => {
+                return (
+                  <tbody>
                     <tr>
                       <th scope="row">{marca.nombre}</th>
                       <td>{marca.estado}</td>
                       <td>
-                        <button className="btn btn-primary edit-button">
-                          <Link to={`marcas/edit/${marca._id}`}></Link>
-                          <i class="fa-solid fa-pencil"></i></button>
-                        <button className="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                        <Link to={`marcas/edit/${marca._id}`}>
+                          <button className="btn btn-primary edit-button">
+                            <i class="fa-solid fa-pencil"></i></button>
+                        </Link>
+                        <button className="btn btn-danger" onClick={() => {handleDelete(marca._id)}}><i class="fa-solid fa-trash"></i></button>
                       </td>
                     </tr>
                   </tbody>
-          
-        )
-          })
-        }
-        </table>
+
+                )
+              })
+            }
+          </table>
         </div>
         {
           openModal ? <MarcaPopup
-          handleOpenModal={handleOpenModal}
-          listarUsuarios={listarMarcas} /> :
-          (<button className="btn btn-primary fab" onClick={handleOpenModal}>
-            <i className="fa-solid fa-plus"></i></button>)
-      }
+            handleOpenModal={handleOpenModal}
+            listarUsuarios={listarMarcas} /> :
+            (<button className="btn btn-primary fab" onClick={handleOpenModal}>
+              <i className="fa-solid fa-plus"></i></button>)
+        }
 
       </div>
-      
+
     </div>
   )
 }

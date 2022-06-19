@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import { getTiposEquipo } from '../../services/tipoEquipoService';
+import { deleteTipo, getTiposEquipo } from '../../services/tipoEquipoService';
 import { Link } from 'react-router-dom';
 import { TipoEstadoPopup } from './TipoEquipoPopup';
 
@@ -33,6 +33,18 @@ export const TipoEquipo = () => {
     setOpenModal(!openModal);
   }
 
+  const handleDelete = async (tipoId) => {
+    try 
+    {
+        await deleteTipo(tipoId);
+        getTiposEquipo();
+        console.log(tipoId);    
+    } catch (error) {
+        console.log(error); 
+    }
+
+  }
+
   return (
     <div className="container-fluid">
       <div class="mt-2 mb-2 ">
@@ -54,10 +66,11 @@ export const TipoEquipo = () => {
                       <th scope="row">{tipo.nombre}</th>
                       <td>{tipo.estado}</td>
                       <td>
-                        <button className="btn btn-primary edit-button">
-                          <Link to={`tipos/edit/${tipo._id}`}></Link>
-                          <i class="fa-solid fa-pencil"></i></button>
-                        <button className="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                        <Link to={`tipos/edit/${tipo._id}`}>
+                          <button className="btn btn-primary edit-button">
+                            <i class="fa-solid fa-pencil"></i></button>
+                        </Link>
+                        <button className="btn btn-danger" onClick={() => {handleDelete(tipo._id)}}><i class="fa-solid fa-trash"></i></button>
                       </td>
                     </tr>
                   </tbody>
