@@ -37,7 +37,7 @@ export const TipoEquipo = () => {
     try 
     {
         await deleteTipo(tipoId);
-        getTiposEquipo();
+        listarTipos();
         console.log(tipoId);    
     } catch (error) {
         console.log(error); 
@@ -85,7 +85,7 @@ export const TipoEquipo = () => {
       {
         openModal ? <TipoEstadoPopup
           handleOpenModal={handleOpenModal}
-          listarUsuarios={listarTipos} /> :
+          listarTipos={listarTipos} /> :
           (<button className="btn btn-primary fab" onClick={handleOpenModal}>
             <i className="fa-solid fa-plus"></i></button>)
       }

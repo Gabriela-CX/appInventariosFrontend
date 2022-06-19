@@ -37,7 +37,7 @@ const handleDelete = async (estadoId) => {
   try 
   {
       await deleteEstado(estadoId);
-      getEstadosEquipos();
+      listarEstados();
       console.log(estadoId);    
   } catch (error) {
       console.log(error); 
@@ -85,7 +85,7 @@ const handleDelete = async (estadoId) => {
       {
         openModal ? <EstadoPopup
           handleOpenModal={handleOpenModal}
-          listarUsuarios={listarEstados} /> :
+          listarEstados={listarEstados} /> :
           (<button className="btn btn-primary fab" onClick={handleOpenModal}>
             <i className="fa-solid fa-plus"></i></button>)
       }

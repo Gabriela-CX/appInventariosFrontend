@@ -37,7 +37,7 @@ export const Marca = () => {
     try 
     {
         await deleteMarca(marcaId);
-        getMarcas();
+        listarMarcas();
         console.log(marcaId);    
     } catch (error) {
         console.log(error); 
@@ -83,7 +83,7 @@ export const Marca = () => {
         {
           openModal ? <MarcaPopup
             handleOpenModal={handleOpenModal}
-            listarUsuarios={listarMarcas} /> :
+            listarMarcas={listarMarcas} /> :
             (<button className="btn btn-primary fab" onClick={handleOpenModal}>
               <i className="fa-solid fa-plus"></i></button>)
         }

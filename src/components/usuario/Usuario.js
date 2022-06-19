@@ -37,7 +37,7 @@ export const Usuario = () => {
     try 
     {
         await deleteUsuario(usuarioId);
-        getUsuarios();
+        listarUsuarios();
         console.log(usuarioId);    
     } catch (error) {
         console.log(error); 
